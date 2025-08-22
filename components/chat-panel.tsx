@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Textarea from 'react-textarea-autosize'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 import { Message } from 'ai'
 import { ArrowUp, ChevronDown, MessageCirclePlus, Square } from 'lucide-react'
@@ -12,7 +13,6 @@ import { cn } from '@/lib/utils'
 
 import { useArtifact } from './artifact/artifact-context'
 import { Button } from './ui/button'
-import { IconLogo } from './ui/icons'
 import { EmptyScreen } from './empty-screen'
 import { ModelSelector } from './model-selector'
 import { SearchModeToggle } from './search-mode-toggle'
@@ -119,9 +119,15 @@ export function ChatPanel({
     >
       {messages.length === 0 && (
         <div className="mb-10 flex flex-col items-center gap-4">
-          <IconLogo className="size-12 text-muted-foreground" />
-          <p className="text-center text-3xl font-semibold">
-            How can I help you today?
+          <Image
+            src="/images/sabi.png"
+            alt="Sabiduria Logo"
+            width={124}
+            height={124}
+            className="rounded-full"
+          />
+          <p className="text-center text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            ¿Qué te gustaria sanar o <br /> aprender hoy?
           </p>
         </div>
       )}
@@ -137,7 +143,7 @@ export function ChatPanel({
             size="icon"
             className="absolute -top-10 right-4 z-20 size-8 rounded-full shadow-md"
             onClick={handleScrollToBottom}
-            title="Scroll to bottom"
+            title="Desplazarse al final"
           >
             <ChevronDown size={16} />
           </Button>
@@ -152,7 +158,7 @@ export function ChatPanel({
             tabIndex={0}
             onCompositionStart={handleCompositionStart}
             onCompositionEnd={handleCompositionEnd}
-            placeholder="Ask a question..."
+            placeholder="Haz una pregunta..."
             spellCheck={false}
             value={input}
             disabled={isLoading || isToolInvocationInProgress()}

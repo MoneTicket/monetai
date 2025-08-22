@@ -1,3 +1,5 @@
+import { createClient } from '@/lib/supabase/server'
+
 import { ChatHistoryClient } from './chat-history-client'
 
 export async function ChatHistorySection() {
@@ -6,5 +8,10 @@ export async function ChatHistorySection() {
     return null
   }
 
-  return <ChatHistoryClient />
+  const supabase = createClient()
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
+
+  return <ChatHistoryClient user={user} />
 }

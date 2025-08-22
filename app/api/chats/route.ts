@@ -10,6 +10,14 @@ interface ChatPageResponse {
 }
 
 export async function GET(request: NextRequest) {
+  const userId = await getCurrentUserId()
+
+  if (!userId) {
+    return new Response('Unauthorized', {
+      status: 401
+    })
+  }
+
   const enableSaveChatHistory = process.env.ENABLE_SAVE_CHAT_HISTORY === 'true'
   if (!enableSaveChatHistory) {
     return NextResponse.json<ChatPageResponse>({ chats: [], nextOffset: null })
@@ -18,8 +26,6 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const offset = parseInt(searchParams.get('offset') || '0', 10)
   const limit = parseInt(searchParams.get('limit') || '20', 10)
-
-  const userId = await getCurrentUserId()
 
   try {
     const result = await getChatsPage(userId, limit, offset)

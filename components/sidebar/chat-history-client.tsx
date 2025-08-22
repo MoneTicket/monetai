@@ -1,22 +1,17 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState, useTransition } from 'react'
-
 import { toast } from 'sonner'
-
 import { Chat } from '@/lib/types'
-
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu
 } from '@/components/ui/sidebar'
-
 import { ChatHistorySkeleton } from './chat-history-skeleton'
 import { ChatMenuItem } from './chat-menu-item'
 import { ClearHistoryAction } from './clear-history-action'
-
-// interface ChatHistoryClientProps {} // Removed empty interface
+import { useCurrentUser } from '@/hooks/use-current-user' // <-- Importa el hook
 
 interface ChatPageResponse {
   chats: Chat[]
@@ -24,7 +19,7 @@ interface ChatPageResponse {
 }
 
 export function ChatHistoryClient() {
-  // Removed props from function signature
+  const user = useCurrentUser() // <-- Obtiene el usuario actual
   const [chats, setChats] = useState<Chat[]>([])
   const [nextOffset, setNextOffset] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -34,12 +29,24 @@ export function ChatHistoryClient() {
   const fetchInitialChats = useCallback(async () => {
     setIsLoading(true)
     try {
-      const response = await fetch(`/api/chats?offset=0&limit=20`)
-      if (!response.ok) {
-        throw new Error('Failed to fetch initial chat history')
+      let newChats: Chat[] = []
+      let newNextOffset: number | null = null
+
+      if (user) {
+        // Usuario autenticado: pide solo sus chats
+        const response = await fetch(`/api/chats?user_id=${user.id}&offset=0&limit=20`)
+        if (!response.ok) {
+          throw new Error('Failed to fetch initial chat history')
+        }
+        const data = await response.json() as ChatPageResponse
+        newChats = data.chats
+        newNextOffset = data.nextOffset
+      } else {
+        // Usuario anónimo: usa localStorage y limita a 3 chats
+        const localChats = JSON.parse(localStorage.getItem('anon_chats') || '[]')
+        newChats = localChats.slice(0, 3)
+        newNextOffset = null
       }
-      const { chats: newChats, nextOffset: newNextOffset } =
-        (await response.json()) as ChatPageResponse
 
       setChats(newChats)
       setNextOffset(newNextOffset)
@@ -50,7 +57,7 @@ export function ChatHistoryClient() {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [user])
 
   useEffect(() => {
     fetchInitialChats()
@@ -69,19 +76,17 @@ export function ChatHistoryClient() {
   }, [fetchInitialChats])
 
   const fetchMoreChats = useCallback(async () => {
-    if (isLoading || nextOffset === null) return
+    if (isLoading || nextOffset === null || !user) return
 
     setIsLoading(true)
     try {
-      const response = await fetch(`/api/chats?offset=${nextOffset}&limit=20`)
+      const response = await fetch(`/api/chats?user_id=${user.id}&offset=${nextOffset}&limit=20`)
       if (!response.ok) {
         throw new Error('Failed to fetch more chat history')
       }
-      const { chats: newChats, nextOffset: newNextOffset } =
-        (await response.json()) as ChatPageResponse
-
-      setChats(prevChats => [...prevChats, ...newChats])
-      setNextOffset(newNextOffset)
+      const data = await response.json() as ChatPageResponse
+      setChats(prevChats => [...prevChats, ...data.chats])
+      setNextOffset(data.nextOffset)
     } catch (error) {
       console.error('Failed to load more chats:', error)
       toast.error('Failed to load more chat history.')
@@ -89,11 +94,11 @@ export function ChatHistoryClient() {
     } finally {
       setIsLoading(false)
     }
-  }, [nextOffset, isLoading])
+  }, [nextOffset, isLoading, user])
 
   useEffect(() => {
     const observerRefValue = loadMoreRef.current
-    if (!observerRefValue || nextOffset === null || isPending) return
+    if (!observerRefValue || nextOffset === null || isPending || !user) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -111,7 +116,7 @@ export function ChatHistoryClient() {
         observer.unobserve(observerRefValue)
       }
     }
-  }, [fetchMoreChats, nextOffset, isLoading, isPending])
+  }, [fetchMoreChats, nextOffset, isLoading, isPending, user])
 
   const isHistoryEmpty = !isLoading && !chats.length && nextOffset === null
 
@@ -119,14 +124,14 @@ export function ChatHistoryClient() {
     <div className="flex flex-col flex-1 h-full">
       <SidebarGroup>
         <div className="flex items-center justify-between w-full">
-          <SidebarGroupLabel className="p-0">History</SidebarGroupLabel>
+          <SidebarGroupLabel className="p-0">Historial</SidebarGroupLabel>
           <ClearHistoryAction empty={isHistoryEmpty} />
         </div>
       </SidebarGroup>
       <div className="flex-1 overflow-y-auto mb-2 relative">
         {isHistoryEmpty && !isPending ? (
           <div className="px-2 text-foreground/30 text-sm text-center py-4">
-            No search history
+            No hay historial de búsqueda
           </div>
         ) : (
           <SidebarMenu>

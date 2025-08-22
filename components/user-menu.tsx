@@ -31,23 +31,28 @@ interface UserMenuProps {
 export default function UserMenu({ user }: UserMenuProps) {
   const router = useRouter()
   const userName =
-    user.user_metadata?.full_name || user.user_metadata?.name || 'User'
+    user.user_metadata?.full_name || user.user_metadata?.name || 'Usuario'
   const avatarUrl =
     user.user_metadata?.avatar_url || user.user_metadata?.picture
 
-  const getInitials = (name: string, email: string | undefined) => {
-    if (name && name !== 'User') {
-      const names = name.split(' ')
+  const getInitials = (user: User) => {
+    const name = user.user_metadata?.full_name || user.user_metadata?.name;
+    const email = user.email;
+
+    if (name) {
+      const names = name.split(' ');
       if (names.length > 1) {
-        return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase()
+        return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
       }
-      return name.substring(0, 2).toUpperCase()
+      return name.substring(0, 2).toUpperCase();
     }
+
     if (email) {
-      return email.split('@')[0].substring(0, 2).toUpperCase()
+      return email.split('@')[0].substring(0, 2).toUpperCase();
     }
-    return 'U'
-  }
+
+    return 'U'; // Fallback if no name or email
+  };
 
   const handleLogout = async () => {
     const supabase = createClient()
@@ -62,7 +67,7 @@ export default function UserMenu({ user }: UserMenuProps) {
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
             <AvatarImage src={avatarUrl} alt={userName} />
-            <AvatarFallback>{getInitials(userName, user.email)}</AvatarFallback>
+            <AvatarFallback>{getInitials(user)}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -81,7 +86,7 @@ export default function UserMenu({ user }: UserMenuProps) {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <Palette className="mr-2 h-4 w-4" />
-            <span>Theme</span>
+            <span>Tema</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
             <ThemeMenuItems />
@@ -90,7 +95,7 @@ export default function UserMenu({ user }: UserMenuProps) {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <Link2 className="mr-2 h-4 w-4" />
-            <span>Links</span>
+            <span>Enlaces</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
             <ExternalLinkItems />
@@ -99,7 +104,7 @@ export default function UserMenu({ user }: UserMenuProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />
-          <span>Logout</span>
+          <span>Cerrar sesión</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

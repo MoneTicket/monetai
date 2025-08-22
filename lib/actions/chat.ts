@@ -68,6 +68,9 @@ export async function getChatsPage(
   limit = 20,
   offset = 0
 ): Promise<{ chats: Chat[]; nextOffset: number | null }> {
+  if (!userId) {
+    return { chats: [], nextOffset: null }
+  }
   try {
     const redis = await getRedis()
     const userChatKey = getUserChatKey(userId)
@@ -119,7 +122,10 @@ export async function getChatsPage(
   }
 }
 
-export async function getChat(id: string, userId: string = 'anonymous') {
+export async function getChat(id: string, userId: string) {
+  if (!userId) {
+    return null
+  }
   const redis = await getRedis()
   const chat = await redis.hgetall<Chat>(`chat:${id}`)
 
@@ -127,7 +133,11 @@ export async function getChat(id: string, userId: string = 'anonymous') {
     return null
   }
 
-  // Parse the messages if they're stored as a string
+  // A shared chat can be viewed by anyone, but a private chat requires userId match
+  if (!chat.sharePath && chat.userId !== userId) {
+    return null
+  }
+
   if (typeof chat.messages === 'string') {
     try {
       chat.messages = JSON.parse(chat.messages)
@@ -136,7 +146,6 @@ export async function getChat(id: string, userId: string = 'anonymous') {
     }
   }
 
-  // Ensure messages is always an array
   if (!Array.isArray(chat.messages)) {
     chat.messages = []
   }
@@ -144,14 +153,15 @@ export async function getChat(id: string, userId: string = 'anonymous') {
   return chat
 }
 
-export async function clearChats(
-  userId: string = 'anonymous'
-): Promise<{ error?: string }> {
+export async function clearChats(userId: string): Promise<{ error?: string }> {
+  if (!userId) {
+    return { error: 'Unauthorized' }
+  }
   const redis = await getRedis()
   const userChatKey = getUserChatKey(userId)
   const chats = await redis.zrange(userChatKey, 0, -1)
   if (!chats.length) {
-    return { error: 'No chats to clear' }
+    return {} // Not an error, just nothing to clear
   }
   const pipeline = redis.pipeline()
 
@@ -164,12 +174,17 @@ export async function clearChats(
 
   revalidatePath('/')
   redirect('/')
+  return {}
 }
 
 export async function deleteChat(
   chatId: string,
-  userId = 'anonymous'
+  userId: string
 ): Promise<{ error?: string }> {
+  if (!userId) {
+    return { error: 'Unauthorized' }
+  }
+
   try {
     const redis = await getRedis()
     const userKey = getUserChatKey(userId)
@@ -177,22 +192,21 @@ export async function deleteChat(
 
     const chatDetails = await redis.hgetall<Chat>(chatKey)
     if (!chatDetails || Object.keys(chatDetails).length === 0) {
-      console.warn(`Attempted to delete non-existent chat: ${chatId}`)
-      return { error: 'Chat not found' }
+      return {} // Not an error, chat is already gone
     }
 
-    // Optional: Check if the chat actually belongs to the user if userId is provided and matters
-    // if (chatDetails.userId !== userId) {
-    //  console.warn(`Unauthorized attempt to delete chat ${chatId} by user ${userId}`)
-    //  return { error: 'Unauthorized' }
-    // }
+    if (chatDetails.userId !== userId) {
+      console.warn(
+        `Unauthorized attempt to delete chat ${chatId} by user ${userId}`
+      )
+      return { error: 'Unauthorized' }
+    }
 
     const pipeline = redis.pipeline()
     pipeline.del(chatKey)
-    pipeline.zrem(userKey, chatKey) // Use chatKey consistently
+    pipeline.zrem(userKey, chatKey)
     await pipeline.exec()
 
-    // Revalidate the root path where the chat history is displayed
     revalidatePath('/')
 
     return {}
@@ -202,13 +216,18 @@ export async function deleteChat(
   }
 }
 
-export async function saveChat(chat: Chat, userId: string = 'anonymous') {
+export async function saveChat(chat: Chat, userId: string) {
+  if (!userId) {
+    // Do not save chats for anonymous users
+    return
+  }
   try {
     const redis = await getRedis()
     const pipeline = redis.pipeline()
 
     const chatToSave = {
       ...chat,
+      userId, // Ensure userId is set
       messages: JSON.stringify(chat.messages)
     }
 
@@ -234,7 +253,10 @@ export async function getSharedChat(id: string) {
   return chat
 }
 
-export async function shareChat(id: string, userId: string = 'anonymous') {
+export async function shareChat(id: string, userId: string) {
+  if (!userId) {
+    return null // Or return { error: 'Unauthorized' } based on desired behavior
+  }
   const redis = await getRedis()
   const chat = await redis.hgetall<Chat>(`chat:${id}`)
 

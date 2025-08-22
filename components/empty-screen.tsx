@@ -4,20 +4,20 @@ import { Button } from '@/components/ui/button'
 
 const exampleMessages = [
   {
-    heading: 'What is DeepSeek R1?',
-    message: 'What is DeepSeek R1?'
+    heading: '¿Qué es SabidurIA?',
+    message: '¿Qué es SabidurIA?'
   },
   {
-    heading: 'Why is Nvidia growing rapidly?',
-    message: 'Why is Nvidia growing rapidly?'
+    heading: '¿Cómo funciona la sanación cuántica?',
+    message: '¿Cómo funciona la sanación cuántica?'
   },
   {
-    heading: 'Tesla vs Rivian',
-    message: 'Tesla vs Rivian'
+    heading: 'Guía para la sanación emocional.',
+    message: 'Guía para la sanación emocional.'
   },
   {
-    heading: 'Summary: https://arxiv.org/pdf/2501.05707',
-    message: 'Summary: https://arxiv.org/pdf/2501.05707'
+    heading: 'Ejercicios para el bienestar físico.',
+    message: 'Ejercicios para el bienestar físico.'
   }
 ]
 export function EmptyScreen({
