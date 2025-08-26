@@ -1,17 +1,22 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState, useTransition } from 'react'
+
 import { toast } from 'sonner'
+
 import { Chat } from '@/lib/types'
+
+import { useCurrentUser } from '@/hooks/use-current-user' // <-- Importa el hook
+
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu
 } from '@/components/ui/sidebar'
+
 import { ChatHistorySkeleton } from './chat-history-skeleton'
 import { ChatMenuItem } from './chat-menu-item'
 import { ClearHistoryAction } from './clear-history-action'
-import { useCurrentUser } from '@/hooks/use-current-user' // <-- Importa el hook
 
 interface ChatPageResponse {
   chats: Chat[]

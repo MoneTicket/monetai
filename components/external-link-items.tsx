@@ -1,6 +1,6 @@
 'use client'
 
-import { SiDiscord, SiGithub, SiX } from 'react-icons/si'
+import { SiInstagram, SiX, SiYoutube } from 'react-icons/si'
 import Link from 'next/link'
 
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
@@ -12,14 +12,14 @@ const externalLinks = [
     icon: <SiX className="mr-2 h-4 w-4" />
   },
   {
-    name: 'Discord',
-    href: 'https://discord.gg/zRxaseCuGq',
-    icon: <SiDiscord className="mr-2 h-4 w-4" />
+    name: 'Youtube',
+    href: 'https://youtube.com',
+    icon: <SiYoutube className="mr-2 h-4 w-4" />
   },
   {
-    name: 'GitHub',
-    href: 'https://git.new/morphic',
-    icon: <SiGithub className="mr-2 h-4 w-4" />
+    name: 'Instagram',
+    href: 'https://instagram.com',
+    icon: <SiInstagram className="mr-2 h-4 w-4" />
   }
 ]
 

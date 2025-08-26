@@ -108,7 +108,7 @@ export function ModelSelector({ models }: ModelSelectorProps) {
       </PopoverTrigger>
       <PopoverContent className="w-72 p-0" align="start">
         <Command>
-          <CommandInput placeholder="Search models..." />
+          <CommandInput placeholder="Buscar modelos..." />
           <CommandList>
             <CommandEmpty>No model found.</CommandEmpty>
             {Object.entries(groupedModels).map(([provider, models]) => (
@@ -130,9 +130,16 @@ export function ModelSelector({ models }: ModelSelectorProps) {
                           height={18}
                           className="bg-white rounded-full border"
                         />
-                        <span className="text-xs font-medium">
-                          {model.name}
-                        </span>
+                        <div className="flex flex-col">
+                          <span className="text-xs font-medium">
+                            {model.name}
+                          </span>
+                          {model.description && (
+                            <span className="text-xs text-muted-foreground">
+                              {model.description}
+                            </span>
+                          )}
+                        </div>
                       </div>
                       <Check
                         className={`h-4 w-4 ${

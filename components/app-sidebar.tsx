@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { Plus } from 'lucide-react'
 

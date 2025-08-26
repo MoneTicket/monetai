@@ -1,10 +1,10 @@
-'use client'
-
 import { useState, useTransition } from 'react'
 
 import { toast } from 'sonner'
 
 import { clearChats } from '@/lib/actions/chat'
+
+import { useCurrentUser } from '@/hooks/use-current-user'
 
 import {
   AlertDialog,
@@ -28,6 +28,8 @@ type ClearHistoryProps = {
 export function ClearHistory({ empty }: ClearHistoryProps) {
   const [open, setOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
+  const user = useCurrentUser()
+
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
@@ -49,8 +51,12 @@ export function ClearHistory({ empty }: ClearHistoryProps) {
             disabled={isPending}
             onClick={event => {
               event.preventDefault()
+              if (!user) {
+                toast.error('You must be logged in to clear history.')
+                return
+              }
               startTransition(async () => {
-                const result = await clearChats()
+                const result = await clearChats(user.id)
                 if (result?.error) {
                   toast.error(result.error)
                 } else {

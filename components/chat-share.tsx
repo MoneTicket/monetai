@@ -9,6 +9,8 @@ import { shareChat } from '@/lib/actions/chat'
 import { useCopyToClipboard } from '@/lib/hooks/use-copy-to-clipboard'
 import { cn } from '@/lib/utils'
 
+import { useCurrentUser } from '@/hooks/use-current-user'
+
 import { Button } from './ui/button'
 import {
   Dialog,
@@ -31,12 +33,17 @@ export function ChatShare({ chatId, className }: ChatShareProps) {
   const [pending, startTransition] = useTransition()
   const { copyToClipboard } = useCopyToClipboard({ timeout: 1000 })
   const [shareUrl, setShareUrl] = useState('')
+  const user = useCurrentUser()
 
   const handleShare = async () => {
+    if (!user) {
+      toast.error('You must be logged in to share a chat.')
+      return
+    }
     startTransition(() => {
       setOpen(true)
     })
-    const result = await shareChat(chatId)
+    const result = await shareChat(chatId, user.id)
     if (!result) {
       toast.error('Failed to share chat')
       return

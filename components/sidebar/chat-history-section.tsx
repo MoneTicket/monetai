@@ -13,5 +13,5 @@ export async function ChatHistorySection() {
     data: { user }
   } = await supabase.auth.getUser()
 
-  return <ChatHistoryClient user={user} />
+  return <ChatHistoryClient />
 }

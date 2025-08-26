@@ -1,29 +1,30 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { useCurrentUser } from '@/hooks/use-current-user'
+
+import { MoreHorizontal,Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
-import { Trash2, MoreHorizontal } from 'lucide-react'
+
+import { useCurrentUser } from '@/hooks/use-current-user'
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger} from '@/components/ui/alert-dialog'
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem
-} from '@/components/ui/dropdown-menu'
+  DropdownMenuItem,
+  DropdownMenuTrigger} from '@/components/ui/dropdown-menu'
 import {
   SidebarGroupAction
 } from '@/components/ui/sidebar'
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction
-} from '@/components/ui/alert-dialog'
 import { Spinner } from '@/components/ui/spinner'
 
 interface ClearHistoryActionProps {
