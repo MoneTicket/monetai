@@ -4,20 +4,16 @@ import { Button } from '@/components/ui/button'
 
 const exampleMessages = [
   {
-    heading: '¿Qué es SabidurIA?',
-    message: '¿Qué es SabidurIA?'
+    heading: '¿Cuál es el saldo de MATIC de mi billetera?',
+    message: '¿Cuál es el saldo de MATIC de la billetera 0x...?'
   },
   {
-    heading: '¿Cómo funciona la sanación cuántica?',
-    message: '¿Cómo funciona la sanación cuántica?'
+    heading: '¿Cuánto USDC tengo en mi billetera?',
+    message: '¿Cuánto USDC tengo en la billetera 0x... del contrato 0x...?'
   },
   {
-    heading: 'Guía para la sanación emocional.',
-    message: 'Guía para la sanación emocional.'
-  },
-  {
-    heading: 'Ejercicios para el bienestar físico.',
-    message: 'Ejercicios para el bienestar físico.'
+    heading: '¿Quién es el dueño de este NFT?',
+    message: '¿Quién es el dueño del NFT con contrato 0x... y ID 123?'
   }
 ]
 export function EmptyScreen({
