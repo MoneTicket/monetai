@@ -1,15 +1,13 @@
 import { CoreMessage, smoothStream, streamText } from 'ai'
 
+import { erc20BalanceTool } from '../tools/erc20-balance' // Import the new ERC-20 balance tool
+import { nftTool } from '../tools/nft' // Import the new NFT tool
+import { polygonTool } from '../tools/polygon' // Import the new tool
 import { createQuestionTool } from '../tools/question'
 import { retrieveTool } from '../tools/retrieve'
 import { createSearchTool } from '../tools/search'
 import { createVideoSearchTool } from '../tools/video-search'
-import { polygonTool } from '../tools/polygon' // Import the new tool
-import { erc20BalanceTool } from '../tools/erc20-balance' // Import the new ERC-20 balance tool
-import { nftTool } from '../tools/nft' // Import the new NFT tool
-
 import { getModel } from '../utils/registry'
-
 
 const SYSTEM_PROMPT = `
 Instructions:
@@ -75,7 +73,15 @@ export function researcher({
         getNftOwnership: nftTool // Add the NFT ownership tool
       },
       experimental_activeTools: searchMode
-        ? ['search', 'retrieve', 'videoSearch', 'ask_question', 'getPolygonBalance', 'getErc20Balance', 'getNftOwnership'] // And here
+        ? [
+            'search',
+            'retrieve',
+            'videoSearch',
+            'ask_question',
+            'getPolygonBalance',
+            'getErc20Balance',
+            'getNftOwnership'
+          ] // And here
         : ['getPolygonBalance', 'getErc20Balance', 'getNftOwnership'], // Also allow it when searchMode is off
       maxSteps: searchMode ? 5 : 2, // Allow a bit more steps for potential tool use
       experimental_transform: smoothStream()
@@ -85,4 +91,3 @@ export function researcher({
     throw error
   }
 }
-

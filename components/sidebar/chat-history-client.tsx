@@ -39,16 +39,20 @@ export function ChatHistoryClient() {
 
       if (user) {
         // Usuario autenticado: pide solo sus chats
-        const response = await fetch(`/api/chats?user_id=${user.id}&offset=0&limit=20`)
+        const response = await fetch(
+          `/api/chats?user_id=${user.id}&offset=0&limit=20`
+        )
         if (!response.ok) {
           throw new Error('Failed to fetch initial chat history')
         }
-        const data = await response.json() as ChatPageResponse
+        const data = (await response.json()) as ChatPageResponse
         newChats = data.chats
         newNextOffset = data.nextOffset
       } else {
         // Usuario anónimo: usa localStorage y limita a 3 chats
-        const localChats = JSON.parse(localStorage.getItem('anon_chats') || '[]')
+        const localChats = JSON.parse(
+          localStorage.getItem('anon_chats') || '[]'
+        )
         newChats = localChats.slice(0, 3)
         newNextOffset = null
       }
@@ -85,11 +89,13 @@ export function ChatHistoryClient() {
 
     setIsLoading(true)
     try {
-      const response = await fetch(`/api/chats?user_id=${user.id}&offset=${nextOffset}&limit=20`)
+      const response = await fetch(
+        `/api/chats?user_id=${user.id}&offset=${nextOffset}&limit=20`
+      )
       if (!response.ok) {
         throw new Error('Failed to fetch more chat history')
       }
-      const data = await response.json() as ChatPageResponse
+      const data = (await response.json()) as ChatPageResponse
       setChats(prevChats => [...prevChats, ...data.chats])
       setNextOffset(data.nextOffset)
     } catch (error) {

@@ -116,6 +116,10 @@
     min-height: 100vh;
   }
   .dark body {
-    background-image: linear-gradient(180deg, hsl(var(--background-start-hsl)), hsl(var(--background-end-hsl)));
+    background-image: linear-gradient(
+      180deg,
+      hsl(var(--background-start-hsl)),
+      hsl(var(--background-end-hsl))
+    );
   }
 }

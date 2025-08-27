@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 
-import { MoreHorizontal,Trash2 } from 'lucide-react'
+import { MoreHorizontal, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { useCurrentUser } from '@/hooks/use-current-user'
@@ -16,15 +16,15 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger} from '@/components/ui/alert-dialog'
+  AlertDialogTrigger
+} from '@/components/ui/alert-dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger} from '@/components/ui/dropdown-menu'
-import {
-  SidebarGroupAction
-} from '@/components/ui/sidebar'
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { SidebarGroupAction } from '@/components/ui/sidebar'
 import { Spinner } from '@/components/ui/spinner'
 
 interface ClearHistoryActionProps {
@@ -48,7 +48,9 @@ export function ClearHistoryAction({ empty }: ClearHistoryActionProps) {
       // Usuario autenticado: llamada a API
       const res = await fetch('/api/chats', { method: 'DELETE' })
       const result = await res.json()
-      result?.error ? toast.error(result.error) : toast.success('History cleared')
+      result?.error
+        ? toast.error(result.error)
+        : toast.success('History cleared')
       setOpen(false)
       window.dispatchEvent(new CustomEvent('chat-history-updated'))
     })
@@ -56,7 +58,10 @@ export function ClearHistoryAction({ empty }: ClearHistoryActionProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <SidebarGroupAction disabled={empty || !user} className="static size-7 p-1">
+        <SidebarGroupAction
+          disabled={empty || !user}
+          className="static size-7 p-1"
+        >
           <MoreHorizontal size={16} />
           <span className="sr-only">History Actions</span>
         </SidebarGroupAction>
@@ -84,7 +89,10 @@ export function ClearHistoryAction({ empty }: ClearHistoryActionProps) {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
-              <AlertDialogAction disabled={isPending || !user} onClick={onClear}>
+              <AlertDialogAction
+                disabled={isPending || !user}
+                onClick={onClear}
+              >
                 {isPending ? <Spinner /> : 'Clear'}
               </AlertDialogAction>
             </AlertDialogFooter>

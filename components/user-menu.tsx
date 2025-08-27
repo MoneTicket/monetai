@@ -36,23 +36,23 @@ export default function UserMenu({ user }: UserMenuProps) {
     user.user_metadata?.avatar_url || user.user_metadata?.picture
 
   const getInitials = (user: User) => {
-    const name = user.user_metadata?.full_name || user.user_metadata?.name;
-    const email = user.email;
+    const name = user.user_metadata?.full_name || user.user_metadata?.name
+    const email = user.email
 
     if (name) {
-      const names = name.split(' ');
+      const names = name.split(' ')
       if (names.length > 1) {
-        return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
+        return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase()
       }
-      return name.substring(0, 2).toUpperCase();
+      return name.substring(0, 2).toUpperCase()
     }
 
     if (email) {
-      return email.split('@')[0].substring(0, 2).toUpperCase();
+      return email.split('@')[0].substring(0, 2).toUpperCase()
     }
 
-    return 'U'; // Fallback if no name or email
-  };
+    return 'U' // Fallback if no name or email
+  }
 
   const handleLogout = async () => {
     const supabase = createClient()

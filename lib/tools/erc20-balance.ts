@@ -1,6 +1,7 @@
-import { tool } from 'ai';
-import { z } from 'zod';
-import { getErc20Balance } from './get-erc20-balance';
+import { tool } from 'ai'
+import { z } from 'zod'
+
+import { getErc20Balance } from './get-erc20-balance'
 
 export const erc20BalanceTool = tool({
   description: 'Get the balance of a specific ERC-20 token for a given wallet address on the Polygon network.',

@@ -138,14 +138,14 @@ const config = {
             opacity: '0'
           }
         },
-        'float': {
+        float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-15px)' },
+          '50%': { transform: 'translateY(-15px)' }
         },
         'gradient-scroll': {
           '0%': { 'background-position': '0% 50%' },
           '50%': { 'background-position': '100% 50%' },
-          '100%': { 'background-position': '0% 50%' },
+          '100%': { 'background-position': '0% 50%' }
         }
       },
       animation: {
@@ -155,8 +155,8 @@ const config = {
         'collapse-up': 'collapse-up 0.1s ease-in-out',
         'slide-in-right': 'slide-in-right 0.2s ease-out',
         'slide-out-right': 'slide-out-right 0.2s ease-out',
-        'float': 'float 4s ease-in-out infinite',
-        'gradient-scroll': 'gradient-scroll 3s ease-in-out infinite',
+        float: 'float 4s ease-in-out infinite',
+        'gradient-scroll': 'gradient-scroll 3s ease-in-out infinite'
       },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans]
