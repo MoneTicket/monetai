@@ -120,14 +120,14 @@ export function ChatPanel({
       {messages.length === 0 && (
         <div className="mb-10 mt-20 flex flex-col items-center gap-4">
           <Image
-            src="/images/sabi.png"
+            src="/images/logocoin.png"
             alt="Sabiduria Logo"
             width={124}
             height={124}
-            className="rounded-full"
+            className="rounded-full animate-float"
           />
-          <p className="text-center text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            ¿Qué te gustaria sanar o <br /> aprender hoy?
+          <p className="text-center text-4xl font-extrabold bg-gradient-to-r from-blue-500 via-sky-300 to-white bg-clip-text text-transparent bg-[size:200%_auto] animate-gradient-scroll">
+            Descubre el mundo Web3 con monetAI
           </p>
         </div>
       )}
