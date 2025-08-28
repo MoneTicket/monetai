@@ -37,6 +37,7 @@ export default function AppSidebar() {
             alt="Monetai"
             width={100}
             height={40}
+            className="invert dark:invert-0"
           />
         </Link>
         <SidebarTrigger />
