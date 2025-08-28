@@ -126,7 +126,7 @@ export function ChatPanel({
             height={124}
             className="rounded-full animate-float"
           />
-          <p className="text-center text-4xl font-extrabold bg-gradient-to-r from-blue-700 via-blue-900 to-slate-800 dark:from-blue-500 dark:via-sky-300 dark:to-white bg-clip-text text-transparent bg-[size:200%_auto] animate-gradient-scroll">
+          <p className="text-center text-4xl font-extrabold bg-gradient-to-r from-blue-700 via-blue-900 to-slate-800 dark:from-blue-500 dark:via-sky-300 dark:to-white bg-clip-text text-transparent bg-[size:200%_auto] animate-gradient-scroll overflow-hidden">
             Descubre el mundo Web3<br />con monetAI
           </p>
         </div>
