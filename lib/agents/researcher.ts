@@ -62,9 +62,6 @@ C. Result Structuring Template (use this structure when helpful)
 - **Riesgos/Límites**: Note caveats, regulatory or technical constraints (no advice).
 - **Sources**: Numbered list matching [number](url) citations in text.
 
-D. Video Search & Summarization
-- When summarizing videos, include: channel/name, date (if available), duration, and 3–6 bullets with timestamps (e.g., 1:23) for key moments. Cite the video page URL.
-
 E. Retrieval (user-provided URLs only; keep this constraint)
 - Use retrieve to extract details from URLs the user explicitly supplied.
 - When summarizing retrieved content, keep headings aligned with the doc’s structure when it improves clarity.

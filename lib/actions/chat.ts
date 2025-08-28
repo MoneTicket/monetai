@@ -222,30 +222,23 @@ export async function saveChat(chat: Chat, userId: string) {
     return
   }
   try {
-    console.log('saveChat: Attempting to get Redis client...');
-    const redis = await getRedis();
-    console.log('saveChat: Redis client obtained.');
-
-    const pipeline = redis.pipeline();
+    const redis = await getRedis()
+    const pipeline = redis.pipeline()
 
     const chatToSave = {
       ...chat,
       userId, // Ensure userId is set
       messages: JSON.stringify(chat.messages)
-    };
+    }
 
-    console.log(`saveChat: Preparing to save chat ID: ${chat.id}`);
-    pipeline.hmset(`chat:${chat.id}`, chatToSave);
-    pipeline.zadd(getUserChatKey(userId), Date.now(), `chat:${chat.id}`);
-    console.log('saveChat: Pipeline commands added.');
+    pipeline.hset(`chat:${chat.id}`, chatToSave)
+    pipeline.zadd(getUserChatKey(userId), Date.now(), `chat:${chat.id}`)
 
-    const results = await pipeline.exec();
-    console.log('saveChat: Pipeline executed successfully.');
+    const results = await pipeline.exec()
 
-    return results;
+    return results
   } catch (error) {
-    console.error('saveChat: Error during chat save operation:', error); // Log the full error object
-    throw error;
+    throw error
   }
 }
 
