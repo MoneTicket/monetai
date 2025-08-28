@@ -7,7 +7,12 @@ import { getRedisClient, RedisWrapper } from '@/lib/redis/config'
 import { type Chat } from '@/lib/types'
 
 async function getRedis(): Promise<RedisWrapper> {
-  return await getRedisClient()
+  try {
+    return await getRedisClient();
+  } catch (error) {
+    console.error('Failed to get Redis client in getRedis():', error);
+    throw error; // Re-throw so it propagates to saveChat's catch block
+  }
 }
 
 const CHAT_VERSION = 'v2'
