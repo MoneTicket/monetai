@@ -5,7 +5,7 @@
       "name": "GPT-4.1",
       "provider": "OpenAI",
       "providerId": "openai",
-      "enabled": true,
+      "enabled": false,
       "toolCallType": "native",
       "description": "Mejor rendimiento en tareas complejas."
     },
@@ -14,7 +14,7 @@
       "name": "GPT-4.1 mini",
       "provider": "OpenAI",
       "providerId": "openai",
-      "enabled": true,
+      "enabled": false,
       "toolCallType": "native",
       "description": "Rendimiento similar a GPT-4o, pero más rápido y económico."
     },
@@ -23,7 +23,7 @@
       "name": "GPT-4.1 nano",
       "provider": "OpenAI",
       "providerId": "openai",
-      "enabled": true,
+      "enabled": false,
       "toolCallType": "native",
       "description": "El más rápido y económico para tareas de baja latencia."
     },
@@ -32,7 +32,7 @@
       "name": "o3 mini",
       "provider": "OpenAI",
       "providerId": "openai",
-      "enabled": true,
+      "enabled": false,
       "toolCallType": "native",
       "description": "Razonamiento rápido y rentable para STEM."
     },
@@ -41,18 +41,18 @@
       "name": "GPT-4o",
       "provider": "OpenAI",
       "providerId": "openai",
-      "enabled": true,
+      "enabled": false,
       "toolCallType": "native",
       "description": "Procesa texto, audio e imágenes."
     },
     {
       "id": "gpt-4o-mini",
-      "name": "GPT-4o mini",
+      "name": "GPT-Web3",
       "provider": "OpenAI",
       "providerId": "openai",
       "enabled": true,
       "toolCallType": "native",
-      "description": "Versión rápida y económica de GPT-4o."
+      "description": "Versión AI Web3."
     },
     {
       "id": "claude-3-7-sonnet-20250219",

@@ -10,7 +10,7 @@ export const maxDuration = 30
 
 const DEFAULT_MODEL: Model = {
   id: 'gpt-4o-mini',
-  name: 'GPT-4o mini',
+  name: 'GPT-Web3',
   provider: 'OpenAI',
   providerId: 'openai',
   enabled: true,
