@@ -5,7 +5,6 @@ import { getErc20Balance } from './get-erc20-balance'
 
 export const erc20BalanceTool = tool({
   description: 'Get the balance of a specific ERC-20 token for a given wallet address on the Polygon network.',
-  name: 'getErc20Balance',
   parameters: z.object({
     walletAddress: z.string().describe("The wallet address (e.g., '0x...') to check the token balance of."),
     tokenAddress: z.string().describe("The contract address of the ERC-20 token (e.g., '0x...')."),

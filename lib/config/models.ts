@@ -27,7 +27,7 @@ export async function getModels(): Promise<Model[]> {
 
     try {
       const response = await fetch(modelUrl, {
-        cache: 'no-store',
+        cache: process.env.npm_lifecycle_event === 'build' ? 'force-cache' : 'no-store',
         headers: {
           Accept: 'application/json'
         }
