@@ -177,7 +177,7 @@ class LocalPipelineWrapper {
     return this
   }
 
-  hmset(key: string, value: Record<string, any>) {
+  hset(key: string, value: Record<string, any>) {
     // Convert all values to strings
     const stringValue = Object.fromEntries(
       Object.entries(value).map(([k, v]) => [k, String(v)])
