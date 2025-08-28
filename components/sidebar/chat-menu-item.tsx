@@ -29,8 +29,7 @@ import {
 import {
   SidebarMenuAction,
   SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar
+  SidebarMenuItem
 } from '@/components/ui/sidebar'
 
 import { Spinner } from '../ui/spinner'
@@ -85,14 +84,6 @@ export function ChatMenuItem({ chat }: ChatMenuItemProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
 
-  const { isMobile, setOpenMobile } = useSidebar()
-
-  const handleLinkClick = () => {
-    if (isMobile) {
-      setOpenMobile(false)
-    }
-  }
-
   const onDelete = () => {
     startTransition(async () => {
       try {
@@ -128,7 +119,7 @@ export function ChatMenuItem({ chat }: ChatMenuItemProps) {
         isActive={isActive}
         className="h-auto flex-col gap-0.5 items-start p-2 pr-8"
       >
-        <Link href={chat.path} onClick={handleLinkClick}>
+        <Link href={chat.path}>
           <div className="text-xs font-medium truncate select-none w-full">
             {chat.title}
           </div>
