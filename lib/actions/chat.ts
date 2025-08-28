@@ -231,7 +231,7 @@ export async function saveChat(chat: Chat, userId: string) {
       messages: JSON.stringify(chat.messages)
     }
 
-    pipeline.hset(`chat:${chat.id}`, chatToSave)
+    pipeline.hmset(`chat:${chat.id}`, chatToSave)
     pipeline.zadd(getUserChatKey(userId), Date.now(), `chat:${chat.id}`)
 
     const results = await pipeline.exec()

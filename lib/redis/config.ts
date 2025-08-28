@@ -65,7 +65,7 @@ export class RedisWrapper {
 
   async hmset(key: string, value: Record<string, any>): Promise<'OK' | number> {
     if (this.client instanceof Redis) {
-      return this.client.hmset(key, value)
+      return this.client.hset(key, value)
     } else {
       return (this.client as RedisClientType).hSet(key, value)
     }
@@ -135,8 +135,8 @@ class UpstashPipelineWrapper {
     return this
   }
 
-  hmset(key: string, value: Record<string, any>) {
-    this.pipeline.hmset(key, value)
+  hset(key: string, value: Record<string, any>) {
+    this.pipeline.hset(key, value)
     return this
   }
 
