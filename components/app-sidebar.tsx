@@ -14,17 +14,26 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-  SidebarTrigger
+  SidebarTrigger,
+  useSidebar
 } from '@/components/ui/sidebar'
 
 import { ChatHistorySection } from './sidebar/chat-history-section'
 import { ChatHistorySkeleton } from './sidebar/chat-history-skeleton'
 
 export default function AppSidebar() {
+  const { isMobile, setOpenMobile } = useSidebar()
+
+  const handleInteraction = () => {
+    if (isMobile) {
+      setOpenMobile(false)
+    }
+  }
+
   return (
     <Sidebar side="left" variant="sidebar" collapsible="offcanvas">
       <SidebarHeader className="flex flex-row justify-between items-center">
-        <Link href="/" className="flex items-center gap-2 px-2 py-3">
+        <Link href="/" className="flex items-center gap-2 px-2 py-3" onClick={handleInteraction}>
           <Image
             src="/images/logocoin.png"
             alt="Sabiduria Logo"
@@ -46,7 +55,7 @@ export default function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link href="/" className="flex items-center gap-2">
+              <Link href="/" className="flex items-center gap-2" onClick={handleInteraction}>
                 <Plus className="size-4" />
                 <span>Nuevo</span>
               </Link>
