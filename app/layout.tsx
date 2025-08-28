@@ -21,14 +21,16 @@ const fontSans = FontSans({
   variable: '--font-sans'
 })
 
-const title = 'Morphic'
-const description =
-  'A fully open-source AI-powered answer engine with a generative UI.'
+const title = 'MonetAI'
+const description = 'Descubre el mundo Web3 con monetAI'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://morphic.sh'),
+  metadataBase: new URL('https://aimonetae.vercel.app/'),
   title,
   description,
+  icons: {
+    icon: '/images/monetailog.svg'
+  },
   openGraph: {
     title,
     description
@@ -36,8 +38,7 @@ export const metadata: Metadata = {
   twitter: {
     title,
     description,
-    card: 'summary_large_image',
-    creator: '@miiura'
+    card: 'summary_large_image'
   }
 }
 

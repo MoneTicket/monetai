@@ -113,7 +113,7 @@ export function ChatPanel({
   return (
     <div
       className={cn(
-        'w-full bg-background group/form-container shrink-0',
+        'w-full bg-transparent group/form-container shrink-0',
         messages.length > 0 ? 'sticky bottom-0 px-2 pb-4' : 'px-6'
       )}
     >
@@ -127,7 +127,7 @@ export function ChatPanel({
             className="rounded-full animate-float"
           />
           <p className="text-center text-4xl font-extrabold bg-gradient-to-r from-blue-500 via-sky-300 to-white bg-clip-text text-transparent bg-[size:200%_auto] animate-gradient-scroll">
-            Descubre el mundo Web3 con monetAI
+            Descubre el mundo Web3<br />con monetAI
           </p>
         </div>
       )}

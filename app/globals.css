@@ -58,8 +58,8 @@
   }
 
   .dark {
-    --background-start-hsl: 222 84% 5%;
-    --background-end-hsl: 210 70% 15%;
+    --background-start-hsl: 220 60% 12%;
+    --background-end-hsl: 222 84% 5%;
     --background: var(--background-start-hsl);
     --foreground: 0 0% 98%;
 
@@ -121,5 +121,6 @@
       hsl(var(--background-start-hsl)),
       hsl(var(--background-end-hsl))
     );
+    background-attachment: fixed;
   }
 }
