@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
-import { Check, ChevronsUpDown } from 'lucide-react'
+import { Check, ChevronsUpDown, Circle } from 'lucide-react'
 
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
@@ -96,7 +96,7 @@ export function AssetSelector({}: AssetSelectorProps) {
         >
           {selectedAsset ? (
             <div className="flex items-center space-x-1">
-              {selectedAsset.image_url && (
+              {selectedAsset.image_url ? (
                 <Image
                   src={selectedAsset.image_url}
                   alt={selectedAsset.symbol || selectedAsset.name}
@@ -104,6 +104,8 @@ export function AssetSelector({}: AssetSelectorProps) {
                   height={18}
                   className="rounded-full"
                 />
+              ) : (
+                <Circle size={18} className="text-gray-400" />
               )}
               <span className="text-xs font-medium">{selectedAsset.symbol || selectedAsset.name}</span>
             </div>
@@ -127,7 +129,7 @@ export function AssetSelector({}: AssetSelectorProps) {
                   className="flex justify-between"
                 >
                   <div className="flex items-center space-x-2">
-                    {asset.image_url && (
+                    {asset.image_url ? (
                       <Image
                         src={asset.image_url}
                         alt={asset.symbol || asset.name}
@@ -135,6 +137,8 @@ export function AssetSelector({}: AssetSelectorProps) {
                         height={18}
                         className="rounded-full"
                       />
+                    ) : (
+                      <Circle size={18} className="text-gray-400" />
                     )}
                     <div className="flex flex-col">
                       <span className="text-xs font-medium">
