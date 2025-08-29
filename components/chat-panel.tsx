@@ -118,7 +118,7 @@ export function ChatPanel({
       )}
     >
       {messages.length === 0 && (
-        <div className="mb-10 mt-20 flex flex-col items-center gap-4">
+        <div className="mb-10 mt-20 flex flex-col items-center gap-4 max-w-full overflow-hidden">
           <Image
             src="/images/logocoin.png"
             alt="Sabiduria Logo"
