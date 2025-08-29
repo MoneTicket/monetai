@@ -31,6 +31,8 @@ export function createToolCallingStreamResponse(config: BaseStreamConfig) {
   return createDataStreamResponse({
     execute: async (dataStream: DataStreamWriter) => {
       const { messages, model, chatId, searchMode, userId, selectedAddress, selectedAsset } = config
+      console.log('Tool Calling Stream: selectedAddress:', selectedAddress);
+      console.log('Tool Calling Stream: selectedAsset:', selectedAsset);
       const modelId = `${model.providerId}:${model.id}`
 
       try {

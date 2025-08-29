@@ -18,6 +18,8 @@ export function createManualToolStreamResponse(config: BaseStreamConfig) {
   return createDataStreamResponse({
     execute: async (dataStream: DataStreamWriter) => {
       const { messages, model, chatId, searchMode, userId, selectedAddress, selectedAsset } = config
+      console.log('Manual Tool Stream: selectedAddress:', selectedAddress);
+      console.log('Manual Tool Stream: selectedAsset:', selectedAsset);
       const modelId = `${model.providerId}:${model.id}`
       let toolCallModelId = model.toolCallModel
         ? `${model.providerId}:${model.toolCallModel}`

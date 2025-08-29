@@ -117,30 +117,17 @@ export function researcher({
   selectedAsset?: any
 }): ResearcherReturn {
   try {
+    console.log('Researcher Agent: selectedAddress:', selectedAddress);
+    console.log('Researcher Agent: selectedAsset:', selectedAsset);
     const currentDate = new Date().toLocaleString()
 
     let dynamicSystemPrompt = SYSTEM_PROMPT;
     if (selectedAddress) {
-      dynamicSystemPrompt += `\n\n---
-
-**Contexto de Billetera Seleccionada:**
-Actualmente, la billetera seleccionada por el usuario es: \
-`${selectedAddress}\
-`.
-Utiliza esta dirección automáticamente para consultas de saldo de MATIC, ERC-20 o propiedad de NFT, a menos que el usuario especifique explícitamente otra dirección en su pregunta.`
+      dynamicSystemPrompt += "\n\n---";
+      dynamicSystemPrompt += "\n\n**Contexto de Billetera Seleccionada:**\nActualmente, la billetera seleccionada por el usuario es: `" + selectedAddress + "`.\nUtiliza esta dirección automáticamente para consultas de saldo de MATIC, ERC-20 o propiedad de NFT, a menos que el usuario especifique explícitamente otra dirección en su pregunta.";
     }
     if (selectedAsset) {
-      dynamicSystemPrompt += `\n\n**Contexto de Activo Seleccionado:**
-Actualmente, el activo (token/NFT) seleccionado por el usuario es: \
-`${selectedAsset.symbol || selectedAsset.name}\
-` (Contrato: \
-`${selectedAsset.contract_address || 'N/A'}\
-`, Tipo: \
-`${selectedAsset.type}\
-`, Chain ID: \
-`${selectedAsset.chain_id}\
-`).
-Utiliza este activo automáticamente para consultas de saldo o propiedad, a menos que el usuario especifique explícitamente otro activo en su pregunta.`
+      dynamicSystemPrompt += "\n\n**Contexto de Activo Seleccionado:**\nActualmente, el activo (token/NFT) seleccionado por el usuario es: `" + (selectedAsset.symbol || selectedAsset.name) + "` (Contrato: `" + (selectedAsset.contract_address || 'N/A') + "`, Tipo: `" + selectedAsset.type + "`, Chain ID: `" + selectedAsset.chain_id + "`).\nUtiliza este activo automáticamente para consultas de saldo o propiedad, a menos que el usuario especifique explícitamente otro activo en su pregunta.";
     }
 
     const searchTool = createSearchTool(model)
