@@ -14,6 +14,8 @@ import { cn } from '@/lib/utils'
 import { ChatMessages } from './chat-messages'
 import { ChatPanel } from './chat-panel'
 
+import { getCookie } from '@/lib/utils/cookies'
+
 // Define section structure
 interface ChatSection {
   id: string // User message ID
@@ -52,7 +54,9 @@ export function Chat({
     initialMessages: savedMessages,
     id: CHAT_ID,
     body: {
-      id
+      id,
+      selectedAddress: getCookie('selectedAddress'),
+      selectedAsset: getCookie('selectedAsset') ? JSON.parse(getCookie('selectedAsset')!) : null
     },
     onFinish: () => {
       window.history.replaceState({}, '', `/search/${id}`)

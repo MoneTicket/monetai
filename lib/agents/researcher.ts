@@ -106,32 +106,56 @@ type ResearcherReturn = Parameters<typeof streamText>[0]
 export function researcher({
   messages,
   model,
-  searchMode
+  searchMode,
+  selectedAddress,
+  selectedAsset
 }: {
-  messages: CoreMessage[]
-  model: string
-  searchMode: boolean
+  messages: CoreMessage[];
+  model: string;
+  searchMode: boolean;
+  selectedAddress?: string;
+  selectedAsset?: any;
 }): ResearcherReturn {
   try {
     const currentDate = new Date().toLocaleString()
 
-    // Create model-specific tools
+    let dynamicSystemPrompt = SYSTEM_PROMPT;
+    if (selectedAddress) {
+      dynamicSystemPrompt += `
+
+---`
+      dynamicSystemPrompt += `
+
+**Contexto de Billetera Seleccionada:**
+Actualmente, la billetera seleccionada por el usuario es: `${selectedAddress}`.
+Utiliza esta dirección automáticamente para consultas de saldo de MATIC, ERC-20 o propiedad de NFT, a menos que el usuario especifique explícitamente otra dirección en su pregunta.`
+    }
+    if (selectedAsset) {
+      dynamicSystemPrompt += `
+
+**Contexto de Activo Seleccionado:**
+Actualmente, el activo (token/NFT) seleccionado por el usuario es: `${selectedAsset.symbol || selectedAsset.name}` (Contrato: `${selectedAsset.contract_address || 'N/A'}`, Tipo: `${selectedAsset.type}`, Chain ID: `${selectedAsset.chain_id}`).
+Utiliza este activo automáticamente para consultas de saldo o propiedad, a menos que el usuario especifique explícitamente otro activo en su pregunta.`
+    }
+
     const searchTool = createSearchTool(model)
     const videoSearchTool = createVideoSearchTool(model)
     const askQuestionTool = createQuestionTool(model)
 
     return {
       model: getModel(model),
-      system: `${SYSTEM_PROMPT}\nCurrent date and time: ${currentDate}`,
+      system: `${dynamicSystemPrompt}
+
+Current date and time: ${currentDate}`,
       messages,
       tools: {
         search: searchTool,
         retrieve: retrieveTool,
         videoSearch: videoSearchTool,
         ask_question: askQuestionTool,
-        getPolygonBalance: polygonTool, // Add the new tool here
-        getErc20Balance: erc20BalanceTool, // Add the ERC-20 balance tool
-        getNftOwnership: nftTool // Add the NFT ownership tool
+        getPolygonBalance: polygonTool,
+        getErc20Balance: erc20BalanceTool,
+        getNftOwnership: nftTool
       },
       experimental_activeTools: searchMode
         ? [
@@ -142,9 +166,9 @@ export function researcher({
             'getPolygonBalance',
             'getErc20Balance',
             'getNftOwnership'
-          ] // And here
-        : ['getPolygonBalance', 'getErc20Balance', 'getNftOwnership'], // Also allow it when searchMode is off
-      maxSteps: searchMode ? 5 : 2, // Allow a bit more steps for potential tool use
+          ]
+        : ['getPolygonBalance', 'getErc20Balance', 'getNftOwnership'],
+      maxSteps: searchMode ? 5 : 2,
       experimental_transform: smoothStream()
     }
   } catch (error) {

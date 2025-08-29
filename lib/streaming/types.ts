@@ -8,4 +8,6 @@ export interface BaseStreamConfig {
   chatId: string
   searchMode: boolean
   userId: string
+  selectedAddress?: string
+  selectedAsset?: any
 }
