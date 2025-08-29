@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils'
 import { useArtifact } from './artifact/artifact-context'
 import { Button } from './ui/button'
 import { EmptyScreen } from './empty-screen'
-import { ModelSelector } from './model-selector'
+import { AddressSelector } from './address-selector'
 import { SearchModeToggle } from './search-mode-toggle'
 
 interface ChatPanelProps {
@@ -193,7 +193,7 @@ export function ChatPanel({
           {/* Bottom menu area */}
           <div className="flex items-center justify-between p-3">
             <div className="flex items-center gap-2">
-              <ModelSelector models={models || []} />
+              <AddressSelector />
               <SearchModeToggle />
             </div>
             <div className="flex items-center gap-2">
