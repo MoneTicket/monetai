@@ -56,7 +56,18 @@ export function Chat({
     body: {
       id,
       selectedAddress: getCookie('selectedAddress'),
-      selectedAsset: getCookie('selectedAsset') ? JSON.parse(getCookie('selectedAsset')!) : null
+      selectedAsset: (() => {
+        const assetCookie = getCookie('selectedAsset');
+        if (assetCookie) {
+          try {
+            return JSON.parse(assetCookie);
+          } catch (e) {
+            console.error('Error parsing selectedAsset cookie:', e, 'Cookie content:', assetCookie);
+            return null;
+          }
+        }
+        return null;
+      })()
     },
     onFinish: () => {
       window.history.replaceState({}, '', `/search/${id}`)
